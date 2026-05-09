@@ -1,0 +1,24 @@
+bundle:
+  name: sales_bundle_project
+
+workspace:
+  host: https://dbc-7ecc0dbb-562f.cloud.databricks.com
+
+targets:
+  dev:
+    default: true
+
+resources:
+  jobs:
+    sales_job:
+      name: sales_bundle_job
+
+      tasks:
+        - task_key: sales_task
+          notebook_task:
+            notebook_path: ../notebooks/01_read_sales.py
+
+          new_cluster:
+            spark_version: 15.4.x-scala2.12
+            node_type_id: Standard_DS3_v2
+            num_workers: 1
