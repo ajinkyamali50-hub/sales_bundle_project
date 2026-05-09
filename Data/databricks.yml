@@ -1,0 +1,42 @@
+bundle:
+  name: customer_sales_project
+
+workspace:
+  host: https://YOUR-WORKSPACE.cloud.databricks.com
+
+targets:
+  dev:
+    default: true
+
+resources:
+  jobs:
+    customer_sales_job:
+      name: customer_sales_job
+
+      tasks:
+        - task_key: read_data
+
+          existing_cluster_id: YOUR_CLUSTER_ID
+
+          notebook_task:
+            notebook_path: ./notebooks/01_read_data.py
+
+        - task_key: validate_data
+
+          existing_cluster_id: YOUR_CLUSTER_ID
+
+          depends_on:
+            - task_key: read_data
+
+          notebook_task:
+            notebook_path: ./notebooks/02_validate_data.py
+
+        - task_key: transform_data
+
+          existing_cluster_id: YOUR_CLUSTER_ID
+
+          depends_on:
+            - task_key: validate_data
+
+          notebook_task:
+            notebook_path: ./notebooks/03_transform_data.py
